@@ -1,8 +1,10 @@
 # seq x gene
 
-[TODO]: <>
-[describe all the data files in some detail]: <>
-[add detail on evaluation]: <>
+<!--- 
+= TODO 
+- describe all the data files in some detail
+- add detail on evaluation]
+--->
 
 This repository contains code for our paper "Integrating regulatory DNA sequence and gene expression to predict genome-wide chromatin accessibility across cellular contexts".
 

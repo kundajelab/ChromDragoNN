@@ -21,7 +21,7 @@ Untar the `dnase.chr.packbited.tar.gz` file (occupies ~30 Gb).
 
 The stage 1 models predict accessibility across all training cell types from only sequence, and does not utilise RNA-seq profiles.
 
-The `model_zoo/stage1` directory contains models for the [Vanilla](./model_zoo/stage1/basset_vanilla.py), [Factorized]([vanilla](./model_zoo/stage1/basset_factorized.py) and our [ResNet]([vanilla](./model_zoo/stage1/basset_resnet.py) models.
+The `model_zoo/stage1` directory contains models for the [Vanilla](./model_zoo/stage1/basset_vanilla.py), [Factorized](./model_zoo/stage1/basset_factorized.py) and our [ResNet](./model_zoo/stage1/basset_resnet.py) models.
 
 To start training any of these models (say, ResNet), from the `model_zoo/stage1` directory:
 

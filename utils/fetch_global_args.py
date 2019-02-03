@@ -1,10 +1,7 @@
 import argparse
 import os
 
-DATA_DIR = '/Users/jacobperricone/Desktop/STANFORD/w18/Research/Data' if os.getcwd().startswith('/Users/jacobperricone/') else \
-           '/scratch/users/surag/cs273b/data/'
-STAGE1_CHECKPOINTS = '/scratch/users/surag/cs273b/models/sepval/stage1/'
-STAGE2_CHECKPOINTS = '/scratch/users/surag/cs273b/models/sepval/stage2/'
+DATA_DIR = '/data/'
 ALL_CHROMOSOMES = list(range(1,23)) + ['X', 'Y']
 
 def common_args(parser):

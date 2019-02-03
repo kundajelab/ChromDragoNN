@@ -24,11 +24,6 @@ import pdb
 # also has access to actual mean of locus => can only be used when holding out cell types duh
 
 
-if os.getcwd().startswith('/Users/jacobperricone/'):
-    DATA_DIR = '/Users/jacobperricone/Desktop/STANFORD/w18/Research/Data'
-else:
-    DATA_DIR = '/scratch/users/surag/cs273b/data/'
-
 """
 Usage: python basset+_resnet_ct
 

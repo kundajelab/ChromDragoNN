@@ -60,19 +60,26 @@ class Net(nn.Module):
 
 
 def instantiate_model(args, chrm_list=ALL_CHROMOSOMES):
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
     # load basset model
     basset_checkpoint = torch.load(args.basset_pretrained_path + 'model_best.pth.tar')
     basset_args = basset_checkpoint['args']
     basset_model = BassetNet(basset_args)
+    basset_model = nn.DataParallel(basset_model)
+    basset_model.to(device)
     basset_model.load_state_dict(basset_checkpoint['state_dict'])
-
-    if args.cuda: basset_model.cuda()
-    
+ 
     BASSET_NUM_CELL_TYPES = basset_args.num_total_cell_types - len(basset_args.validation_list) - len(
         basset_args.test_list)
     
     # init model
     model = Net(BASSET_NUM_CELL_TYPES, basset_model, args)
+
+    # if args.cuda: basset_model.cuda()    
+    model = nn.DataParallel(model)
+    model.to(device)
+
     if args.resume_from_best:
         model_pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
         print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')

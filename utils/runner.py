@@ -74,10 +74,13 @@ def run_stage2(model, di, args, pipeline, mask_loss = False):
         best_acc = 0
         best_val_loss = INF
 
-    if args.cuda:
-        model.cuda()
-    else:
-        model.cpu()
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = nn.DataParallel(model)
+    model.to(device)
+    #if args.cuda:
+    #    model.cuda()
+    #else:
+    #    model.cpu()
 
     print(model)
 

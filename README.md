@@ -8,16 +8,16 @@
 
 This repository contains code for our paper "Integrating regulatory DNA sequence and gene expression to predict genome-wide chromatin accessibility across cellular contexts".
 
-### Data
+## Data
 
 All associated data can be downloaded from [here](http://mitra.stanford.edu/kundaje/projects/seqxgene/).
 
 Untar the `dnase.chr.packbited.tar.gz` file (occupies ~30 Gb).
 
 
-### Model Training 
+## Model Training 
 
-#### Stage 1
+### Stage 1
 
 The stage 1 models predict accessibility across all training cell types from only sequence, and does not utilise RNA-seq profiles.
 
@@ -31,7 +31,7 @@ For other inputs, such as hyperparameters, refer
 
 `python basset_resnet.py --help`
 
-#### Stage 2
+### Stage 2
 
 The stage 2 models predict accessibility for each cell type, sequence pair and uses RNA-seq profiles.
 
@@ -45,6 +45,6 @@ The model loads weights from the best model from the stage 1 checkpoint director
 
 `python basset_resnet.py --help`
 
-### Citation
+## Citation
 
 If you use this code for your research, please cite our paper:

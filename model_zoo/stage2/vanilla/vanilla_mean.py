@@ -66,8 +66,8 @@ def instantiate_model(args, chrm_list=ALL_CHROMOSOMES):
     basset_checkpoint = torch.load(args.basset_pretrained_path + 'model_best.pth.tar')
     basset_args = basset_checkpoint['args']
     basset_model = BassetNet(basset_args)
-    #basset_model = nn.DataParallel(basset_model)
-    #basset_model.to(device)
+    basset_model = nn.DataParallel(basset_model)
+    basset_model.to(device)
     basset_model.load_state_dict(basset_checkpoint['state_dict'])
  
     BASSET_NUM_CELL_TYPES = basset_args.num_total_cell_types - len(basset_args.validation_list) - len(

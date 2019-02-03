@@ -68,12 +68,11 @@ class DataIterator:
             chrm_dat = joblib.load(dnase_folder_path + '/dnase.chr' + str(i) + '.packbit.joblib', mmap_mode='r')
             self.dnase_data_raw.append(chrm_dat['features'])
             self.dnase_labels_raw.append(chrm_dat['labels'])
-            self.dnase_chrm_range[i] = (num_examples, num_examples+self.load_dict[i]['features'].shape[0])
-            num_examples += self.load_dict[i]['features'].shape[0]
-            self.load_dict.pop(i)   # free 
+            self.dnase_chrm_range[i] = (num_examples, num_examples+chrm_dat['features'].shape[0])
+            num_examples += chrm_dat['features'].shape[0]            
         
-        self.dnase_data = np.memmap(os.path.join(self.dnase_folder_path, 'dnase_seq'), dtype=self.dnase_data_raw[0].dtype, mode='w+', shape=(num_examples,1000,1))
-        self.dnase_labels = np.memmap(os.path.join(self.dnase_folder_path, 'dnase_labels'), dtype=self.dnase_labels_raw[0].dtype, mode='w+', shape=(num_examples, self.dnase_labels[0].shape[1]))
+        self.dnase_data = np.memmap(os.path.join(dnase_folder_path, 'dnase_seq'), dtype=self.dnase_data_raw[0].dtype, mode='w+', shape=(num_examples,1000,1))
+        self.dnase_labels = np.memmap(os.path.join(dnase_folder_path, 'dnase_labels'), dtype=self.dnase_labels_raw[0].dtype, mode='w+', shape=(num_examples, self.dnase_labels_raw[0].shape[1]))
         
         num_examples = 0
         for i,x,y in zip(self.CHRMS, self.dnase_data_raw, self.dnase_labels_raw):

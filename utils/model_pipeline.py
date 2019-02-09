@@ -4,7 +4,7 @@ import shutil
 import time
 import random
 from multiprocessing import  Pool
-from pytorch_classification.utils import Bar, Logger, AverageMeter, accuracy, mkdir_p, savefig
+from pytorch_classification.utils import Bar, Logger, AverageMeter
 import numpy as np
 import math
 from utils.data_utils import *

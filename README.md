@@ -3,7 +3,8 @@
 <!--- 
 = TODO 
 - describe all the data files in some detail
-- add detail on evaluation]
+- add detail on evaluation
+- cell type as input 
 --->
 
 This repository contains code for our paper "Integrating regulatory DNA sequence and gene expression to predict genome-wide chromatin accessibility across cellular contexts".
@@ -43,8 +44,10 @@ To start training any of these models (say, ResNet, with mean), from the `model_
 
 The model loads weights from the best model from the stage 1 checkpoint directory. For other inputs, such as hyperparameters, refer
 
-`python basset_resnet.py --help`
+`python resnet_mean.py --help`
 
 ## Citation
 
-If you use this code for your research, please cite our paper:
+If you use this code for your research, please cite our paper.
+
+<!--- add citation --->

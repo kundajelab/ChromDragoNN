@@ -1,9 +1,42 @@
 import torch
 from utils.data_utils import *
+from utils import data_iterator
 import torch.optim as optim
 import torch.nn as nn
 import os
 
+def instantiate_model_stage2(args, Stage1Net, Stage2Net, model_pipeline):
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    # load basset model
+    basset_checkpoint = torch.load(args.basset_pretrained_path + 'model_best.pth.tar')
+    basset_args = basset_checkpoint['args']
+    basset_model = Stage1Net(basset_args)
+    basset_model = nn.DataParallel(basset_model)
+    basset_model.to(device)
+    basset_model.load_state_dict(basset_checkpoint['state_dict'])
+ 
+    BASSET_NUM_CELL_TYPES = basset_args.num_total_cell_types - len(basset_args.validation_list) - len(
+        basset_args.test_list)
+    
+    # init model
+    model = Stage2Net(BASSET_NUM_CELL_TYPES, basset_model, args)
+
+    # if args.cuda: basset_model.cuda()    
+    model = nn.DataParallel(model)
+    model.to(device)
+
+    if args.resume_from_best:
+        model_pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
+        print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
+    
+    return model
+
+def load_data_iterator_stage2(args, return_locus_mean):
+    return data_iterator.DataIterator(args.dnase, args.rna_quants, hold_out=args.hold_out,
+                                    validation_list=args.validation_list, test_list=args.test_list,
+                                    balance_classes_train=True, positive_proportion=args.positive_proportion,
+                                    return_locus_mean=return_locus_mean, eval_subsample=500, chromosomes=args.chromosomes)
 
 def run_stage1(model, di, args, pipeline):
     state = {k: v for k, v in args.items()}

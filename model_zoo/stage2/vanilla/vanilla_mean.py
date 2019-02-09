@@ -5,7 +5,7 @@ from utils import data_iterator
 from utils.data_utils import *
 import utils.model_pipeline_mean as model_pipeline
 from utils.fetch_global_args import stage2_global_argparser
-from utils.runner import  run_stage2
+import utils.runner as runner
 
 import argparse
 import torch
@@ -58,43 +58,10 @@ class Net(nn.Module):
         g = self.fc3(g)
         return F.log_softmax(g, dim=1)
 
-
-def instantiate_model(args, chrm_list=ALL_CHROMOSOMES):
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-    # load basset model
-    basset_checkpoint = torch.load(args.basset_pretrained_path + 'model_best.pth.tar')
-    basset_args = basset_checkpoint['args']
-    basset_model = BassetNet(basset_args)
-    basset_model = nn.DataParallel(basset_model)
-    basset_model.to(device)
-    basset_model.load_state_dict(basset_checkpoint['state_dict'])
- 
-    BASSET_NUM_CELL_TYPES = basset_args.num_total_cell_types - len(basset_args.validation_list) - len(
-        basset_args.test_list)
-    
-    # init model
-    model = Net(BASSET_NUM_CELL_TYPES, basset_model, args)
-
-    # if args.cuda: basset_model.cuda()    
-    model = nn.DataParallel(model)
-    model.to(device)
-
-    if args.resume_from_best:
-        model_pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
-        print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
-
-    di = data_iterator.DataIterator(args.dnase, args.rna_quants, hold_out=args.hold_out,
-                                    validation_list=args.validation_list, test_list=args.test_list,
-                                    balance_classes_train=True, positive_proportion = args.positive_proportion,
-                                    return_locus_mean=True, eval_subsample=500, chromosomes=chrm_list)
-
-
-    return model, di
-    
     
 if __name__ == '__main__':
     args = getargs()
     print(args)
-    model, di = instantiate_model(args, args.chromosomes)
-    run_stage2(model,di, args, model_pipeline)
+    model = runner.instantiate_model_stage2(args, BassetNet, Net, model_pipeline)
+    di = runner.load_data_iterator_stage2(args, return_locus_mean=True)
+    runner.run_stage2(model,di, args, model_pipeline)

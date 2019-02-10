@@ -43,7 +43,7 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
         print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
     else:
         model.basset_model.load_state_dict(basset_checkpoint['state_dict'])
-        
+
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = nn.DataParallel(model)
     model.to(device)
@@ -106,7 +106,7 @@ def run_stage1(model, di, args, pipeline):
             'args': args,
             'validation_list': args.validation_list,
             'test_list': args.test_list,
-            'optimizer': optimizer.module.state_dict(),
+            'optimizer': optimizer.state_dict(),
         }, is_best, checkpoint=args.checkpoint)
 
 
@@ -178,7 +178,7 @@ def run_stage2(model, di, args, pipeline, mask_loss = False):
                 'hold_out': args.hold_out,
                 'validation_list': args.validation_list,
                 'test_list': args.test_list,
-                'optimizer': optimizer.module.state_dict(),
+                'optimizer': optimizer.state_dict(),
             }, is_best, checkpoint=args.checkpoint)
 
             pipeline.adjust_learning_rate(optimizer, epoch, args, state)

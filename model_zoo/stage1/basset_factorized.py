@@ -3,7 +3,7 @@ import os
 sys.path.append('../../')
 from utils import data_iterator
 from utils.data_utils import *
-from utils.runner import run_stage1
+import utils.runner as runner
 from utils.fetch_global_args import stage1_global_argparser
 import torch
 import torch.nn as nn
@@ -121,25 +121,10 @@ class Net(nn.Module):
         return s, conv_out
 
 
-
-def instantiate_model(args, chrms = ALL_CHROMOSOMES):
-    model = Net(args)
-
-    if args.resume_from_best:
-        model_pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
-        print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
-
-    di = data_iterator.DataIterator(args.dnase, args.rna_quants,  hold_out=args.hold_out,
-                                    validation_list=args.validation_list, test_list=args.test_list,
-                                    chromosomes=chrms)
-
-
-    return model, di
-
-
 if __name__ == '__main__':
     args = getargs()
     print(args)
-
-    model, di = instantiate_model(args, args.chromosomes)
+ 
+    model = runner.instantiate_model_stage1(args, Net, model_pipeline)
+    di = runner.load_data_iterator_stage1(args)
     run_stage1(model, di, args, model_pipeline)

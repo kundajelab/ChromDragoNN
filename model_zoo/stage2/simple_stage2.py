@@ -34,7 +34,7 @@ class Net(nn.Module):
         if args.with_mean:
             self.fc1 = nn.Linear(args.num_genes + 4200 + 1, 1000)   # all stage1 models have dim 4200 for conv out
         else:
-            self.fc1 = nn.Linear(args.num_genes + 1000, 1000) 
+            self.fc1 = nn.Linear(args.num_genes + 4200, 1000) 
 
         self.bn1 = nn.BatchNorm1d(1000)
         self.fc2 = nn.Linear(1000, 1000)

@@ -69,5 +69,5 @@ if __name__ == '__main__':
 
     Stage1Net = import_net_from_file(args.stage1_file)        
     model = runner.instantiate_model_stage2(args, Stage1Net, Net, model_pipeline)
-    di = runner.load_data_iterator_stage2(args, return_locus_mean=args.with_mean)
+    di = runner.load_data_iterator_stage2(args)
     runner.run_stage2(model,di, args, model_pipeline)

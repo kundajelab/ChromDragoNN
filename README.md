@@ -23,29 +23,29 @@ Untar the `dnase.chr.packbited.tar.gz` file (occupies ~30 Gb).
 
 The stage 1 models predict accessibility across all training cell types from only sequence, and does not utilise RNA-seq profiles.
 
-The `model_zoo/stage1` directory contains models for the [Vanilla](./model_zoo/stage1/basset_vanilla.py), [Factorized](./model_zoo/stage1/basset_factorized.py) and our [ResNet](./model_zoo/stage1/basset_resnet.py) models.
+The `model_zoo/stage1` directory contains models for the [Vanilla](./model_zoo/stage1/vanilla.py), [Factorized](./model_zoo/stage1/factorized.py) and our [ResNet](./model_zoo/stage1/resnet.py) models.
 
 To start training any of these models (say, ResNet), from the `model_zoo/stage1` directory:
 
-`python basset_resnet.py -cp /path/to/stage1/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib`
+`python resnet.py -cp /path/to/stage1/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib`
 
 For other inputs, such as hyperparameters, refer
 
-`python basset_resnet.py --help`
+`python resnet.py --help`
 
 ### Stage 2
 
 The stage 2 models predict accessibility for each cell type, sequence pair and uses RNA-seq profiles.
 
-The `model_zoo/stage2` directory contains models for the respective stage 1 models, with 2 variants each- with and without mean accessibility feature as input (explained in more detail in the paper).
+The `model_zoo/stage2` directory contains models for the stage 2 models, which may be trained with or without mean accessibility feature as input (explained in more detail in the paper).
 
-To start training any of these models (say, ResNet, with mean), from the `model_zoo/stage2/resnet` directory:
+To start training any of these models (say, ResNet, with mean), from the `model_zoo/stage2` directory:
 
-`python resnet_mean.py -cp /path/to/stage2/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib --basset_pretrained_path /path/to/stage1/checkpoint/dir`
+`python simple.py -cp /path/to/stage2/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib --stage1_file /path/to/model_zoo/stage1/resnet.py --stage1_pretrained_model_path /path/to/stage1/checkpoint/dir --with_mean 1`
 
 The model loads weights from the best model from the stage 1 checkpoint directory. For other inputs, such as hyperparameters, refer
 
-`python resnet_mean.py --help`
+`python simple.py --help`
 
 ## Citation
 

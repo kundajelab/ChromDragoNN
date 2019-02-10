@@ -24,7 +24,7 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
     
 
     # load basset model
-    basset_checkpoint = torch.load(args.basset_pretrained_path + 'model_best.pth.tar')
+    basset_checkpoint = torch.load(args.stage1_pretrained_model_path + 'model_best.pth.tar')
     basset_args = basset_checkpoint['args']
     basset_model = Stage1Net(basset_args)
  
@@ -40,7 +40,7 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
     else:
         # load pretrained weights
         model.basset_model.load_state_dict(basset_checkpoint['state_dict'])
-        print('LOADED STAGE 1 WEIGHTS FROM ' + args.basset_pretrained_path + 'model_best.pth.tar')
+        print('LOADED STAGE 1 WEIGHTS FROM ' + args.stage1_pretrained_model_path + 'model_best.pth.tar')
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = nn.DataParallel(model)

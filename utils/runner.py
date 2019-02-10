@@ -9,13 +9,13 @@ import os
 def instantiate_model_stage1(args, Stage1Net, pipeline):
     model = Stage1Net(args)
 
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model = nn.DataParallel(model)
-    model.to(device)
-
     if args.resume_from_best:
         pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
         print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
+
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = nn.DataParallel(model)
+    model.to(device)
     
     return model
 
@@ -38,15 +38,15 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
     # init model
     model = Stage2Net(BASSET_NUM_CELL_TYPES, basset_model, args)
 
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model = nn.DataParallel(model)
-    model.to(device)
-
     if args.resume_from_best:
         pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
         print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
     else:
         model.basset_model.load_state_dict(basset_checkpoint['state_dict'])
+        
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = nn.DataParallel(model)
+    model.to(device)
     
     return model
 
@@ -97,7 +97,7 @@ def run_stage1(model, di, args, pipeline):
 
         pipeline.save_checkpoint({
             'epoch': epoch + 1,
-            'state_dict': model.state_dict(),
+            'state_dict': model.module.state_dict(),
             'acc': test_acc,
             'loss': test_loss,
             'best_loss': best_val_loss,
@@ -106,7 +106,7 @@ def run_stage1(model, di, args, pipeline):
             'args': args,
             'validation_list': args.validation_list,
             'test_list': args.test_list,
-            'optimizer': optimizer.state_dict(),
+            'optimizer': optimizer.module.state_dict(),
         }, is_best, checkpoint=args.checkpoint)
 
 
@@ -169,7 +169,7 @@ def run_stage2(model, di, args, pipeline, mask_loss = False):
 
             pipeline.save_checkpoint({
                 'epoch': epoch + 1,
-                'state_dict': model.state_dict(),
+                'state_dict': model.module.state_dict(),
                 'acc': test_acc,
                 'best_acc': best_acc,
                 'best_loss': best_val_loss,
@@ -178,7 +178,7 @@ def run_stage2(model, di, args, pipeline, mask_loss = False):
                 'hold_out': args.hold_out,
                 'validation_list': args.validation_list,
                 'test_list': args.test_list,
-                'optimizer': optimizer.state_dict(),
+                'optimizer': optimizer.module.state_dict(),
             }, is_best, checkpoint=args.checkpoint)
 
             pipeline.adjust_learning_rate(optimizer, epoch, args, state)

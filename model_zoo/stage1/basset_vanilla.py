@@ -77,4 +77,4 @@ if __name__ == '__main__':
  
     model = runner.instantiate_model_stage1(args, Net, model_pipeline)
     di = runner.load_data_iterator_stage1(args)
-    run_stage1(model, di, args, model_pipeline)
+    runner.run_stage1(model, di, args, model_pipeline)

@@ -63,6 +63,7 @@ Specify learning rates, batch_sizes, etc...
 
 def getargs():
     parser = stage1_global_argparser()
+    parser.add_argument('-rbl', '--blocks', nargs = 4, type=int, default=[2, 2, 2, 2])
     args = parser.parse_args()
     args = dotdict(vars(args))
 
@@ -149,7 +150,7 @@ class L4Block(nn.Module):
 
 
 class Net(nn.Module):
-    def __init__(self, args, blocks):
+    def __init__(self, args):
         super(Net, self).__init__()
 
         self.dropout = args.dropout
@@ -163,10 +164,10 @@ class Net(nn.Module):
                                       self.conv2, self.bn2, nn.ReLU(inplace=True))
 
 
-        self.layer1 = nn.Sequential(*[L1Block() for x in range(blocks[0])])
-        self.layer2 = nn.Sequential(*[L2Block() for x in range(blocks[1])])
-        self.layer3 = nn.Sequential(*[L3Block() for x in range(blocks[2])])
-        self.layer4 = nn.Sequential(*[L4Block() for x in range(blocks[3])])
+        self.layer1 = nn.Sequential(*[L1Block() for x in range(args.blocks[0])])
+        self.layer2 = nn.Sequential(*[L2Block() for x in range(args.blocks[1])])
+        self.layer3 = nn.Sequential(*[L3Block() for x in range(args.blocks[2])])
+        self.layer4 = nn.Sequential(*[L4Block() for x in range(args.blocks[3])])
 
 
         self.c1to2 = nn.Conv2d(64, 128, (3, 1), stride=(1, 1), padding=(1, 0))

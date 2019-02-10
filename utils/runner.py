@@ -33,11 +33,11 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
     
     return model
 
-def load_data_iterator_stage2(args, return_locus_mean):
+def load_data_iterator_stage2(args):
     return data_iterator.DataIterator(args.dnase, args.rna_quants, hold_out=args.hold_out,
                                     validation_list=args.validation_list, test_list=args.test_list,
                                     balance_classes_train=True, positive_proportion=args.positive_proportion,
-                                    return_locus_mean=return_locus_mean, eval_subsample=500, chromosomes=args.chromosomes)
+                                    return_locus_mean=args.with_mean, eval_subsample=500, chromosomes=args.chromosomes)
 
 def run_stage1(model, di, args, pipeline):
     state = {k: v for k, v in args.items()}

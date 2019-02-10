@@ -27,10 +27,6 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
     basset_checkpoint = torch.load(args.basset_pretrained_path + 'model_best.pth.tar')
     basset_args = basset_checkpoint['args']
     basset_model = Stage1Net(basset_args)
-    #basset_model = nn.DataParallel(basset_model)
-    
-    #basset_model.to(device)
-    #basset_model.load_state_dict(basset_checkpoint['state_dict'])
  
     BASSET_NUM_CELL_TYPES = basset_args.num_total_cell_types - len(basset_args.validation_list) - len(
         basset_args.test_list)
@@ -42,7 +38,9 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
         pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
         print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
     else:
+        # load pretrained weights
         model.basset_model.load_state_dict(basset_checkpoint['state_dict'])
+        print('LOADED STAGE 1 WEIGHTS FROM ' + args.basset_pretrained_path + 'model_best.pth.tar')
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = nn.DataParallel(model)

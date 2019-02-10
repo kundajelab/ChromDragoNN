@@ -3,6 +3,7 @@
 <!--- 
 = TODO 
 - describe all the data files in some detail
+- details on resuming training
 - add detail on evaluation
 - cell type as input 
 --->

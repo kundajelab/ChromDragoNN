@@ -5,25 +5,11 @@ import torch.optim as optim
 import torch.nn as nn
 import os
 
-def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
+
+def instantiate_model_stage1(args, Stage1Net, pipeline):
+    model = Stage1Net(args)
+
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-    # load basset model
-    basset_checkpoint = torch.load(args.basset_pretrained_path + 'model_best.pth.tar')
-    basset_args = basset_checkpoint['args']
-    basset_model = Stage1Net(basset_args)
-    basset_model = nn.DataParallel(basset_model)
-    
-    basset_model.to(device)
-    basset_model.load_state_dict(basset_checkpoint['state_dict'])
- 
-    BASSET_NUM_CELL_TYPES = basset_args.num_total_cell_types - len(basset_args.validation_list) - len(
-        basset_args.test_list)
-    
-    # init model
-    model = Stage2Net(BASSET_NUM_CELL_TYPES, basset_model, args)
-
-    # if args.cuda: basset_model.cuda()    
     model = nn.DataParallel(model)
     model.to(device)
 
@@ -32,6 +18,41 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
         print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
     
     return model
+
+
+def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
+    
+
+    # load basset model
+    basset_checkpoint = torch.load(args.basset_pretrained_path + 'model_best.pth.tar')
+    basset_args = basset_checkpoint['args']
+    basset_model = Stage1Net(basset_args)
+    #basset_model = nn.DataParallel(basset_model)
+    
+    #basset_model.to(device)
+    #basset_model.load_state_dict(basset_checkpoint['state_dict'])
+ 
+    BASSET_NUM_CELL_TYPES = basset_args.num_total_cell_types - len(basset_args.validation_list) - len(
+        basset_args.test_list)
+    
+    # init model
+    model = Stage2Net(BASSET_NUM_CELL_TYPES, basset_model, args)
+
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = nn.DataParallel(model)
+    model.to(device)
+
+    if args.resume_from_best:
+        pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
+        print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
+    else:
+        model.basset_model.load_state_dict(basset_checkpoint['state_dict'])
+    
+    return model
+
+def load_data_iterator_stage1(args):
+    return data_iterator.DataIterator(args.dnase, args.rna_quants, hold_out=args.hold_out,
+                                    validation_list=args.validation_list, test_list=args.test_list, chromosomes=args.chromosomes)
 
 def load_data_iterator_stage2(args):
     return data_iterator.DataIterator(args.dnase, args.rna_quants, hold_out=args.hold_out,
@@ -49,15 +70,6 @@ def run_stage1(model, di, args, pipeline):
         best_val_loss = INF
         best_acc = 0
     
-    
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model = nn.DataParallel(model)
-    model.to(device)
-    #if args.cuda:
-    #    model.cuda()
-    #else:
-    #    model.cpu()
-
     optimizer = optim.Adam(model.parameters(), lr =state['lr'])
     criterion = pipeline.basset_loss
 
@@ -107,14 +119,6 @@ def run_stage2(model, di, args, pipeline, mask_loss = False):
     else:
         best_acc = 0
         best_val_loss = INF
-
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model = nn.DataParallel(model)
-    model.to(device)
-    #if args.cuda:
-    #    model.cuda()
-    #else:
-    #    model.cpu()
 
     print(model)
 

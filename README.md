@@ -41,7 +41,7 @@ The `model_zoo/stage2` directory contains models for the stage 2 models, which m
 
 To start training any of these models (say, ResNet, with mean), from the `model_zoo/stage2` directory:
 
-`python simple.py -cp /path/to/stage2/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib --stage1_file /path/to/model_zoo/stage1/resnet.py --stage1_pretrained_model_path /path/to/stage1/checkpoint/dir --with_mean 1`
+`python simple.py -cp /path/to/stage2/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib --stage1_file ../stage1/resnet.py --stage1_pretrained_model_path /path/to/stage1/checkpoint/dir --with_mean 1`
 
 The model loads weights from the best model from the stage 1 checkpoint directory. For other inputs, such as hyperparameters, refer
 

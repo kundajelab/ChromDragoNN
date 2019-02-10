@@ -84,7 +84,7 @@ def train(model, optimizer, epoch, di, args, criterion=nn.NLLLoss()):
         precis.update(p, seq_batch.size(0))
         recall.update(r, seq_batch.size(0))
         f1.update(f, seq_batch.size(0))
-        losses.update(loss.data[0], seq_batch.size(0))
+        losses.update(loss.item(), seq_batch.size(0))
         # compute gradient and do SGD step
         optimizer.zero_grad()
         loss.backward()
@@ -173,7 +173,7 @@ def test(model, optimizer, epoch, di, args, criterion=nn.NLLLoss()):
             precis.update(p, seq_batch.size(0))
             recall.update(r, seq_batch.size(0))
             f1.update(f, seq_batch.size(0))
-            losses.update(loss.data[0], seq_batch.size(0))
+            losses.update(loss.item(), seq_batch.size(0))
 
         # measure elapsed time
         batch_time.update(time.time() - end)

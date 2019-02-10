@@ -2,6 +2,7 @@
 import numpy as np
 from sklearn.linear_model import LogisticRegression as LR
 import matplotlib.pyplot as plt
+import importlib.util
 
 ALL_CHROMOSOMES = list(range(1,23)) + ['X', 'Y']
 STAGE1_CHECKPOINTS = '/scratch/users/surag/cs273b/models/sepval/stage1/'
@@ -14,6 +15,12 @@ def flatten_dict_of_dicts(data, key = 'preds'):
     matrix = np.vstack(tuple(map(flatten_cell, data.keys())))
     return matrix
 
+
+def import_net_from_file(filename):
+    spec = importlib.util.spec_from_file_location("module", filename)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.Net
 
 
 class dotdict(dict):

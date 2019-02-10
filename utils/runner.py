@@ -5,7 +5,7 @@ import torch.optim as optim
 import torch.nn as nn
 import os
 
-def instantiate_model_stage2(args, Stage1Net, Stage2Net, model_pipeline):
+def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # load basset model
@@ -13,6 +13,7 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, model_pipeline):
     basset_args = basset_checkpoint['args']
     basset_model = Stage1Net(basset_args)
     basset_model = nn.DataParallel(basset_model)
+    
     basset_model.to(device)
     basset_model.load_state_dict(basset_checkpoint['state_dict'])
  
@@ -27,7 +28,7 @@ def instantiate_model_stage2(args, Stage1Net, Stage2Net, model_pipeline):
     model.to(device)
 
     if args.resume_from_best:
-        model_pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
+        pipeline.load_checkpoint(model, checkpoint = args.checkpoint)
         print('LOADED WEIGHTS FROM ' + args.checkpoint + 'model_best.pth.tar')
     
     return model

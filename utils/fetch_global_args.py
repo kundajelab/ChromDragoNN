@@ -59,7 +59,9 @@ def stage2_global_argparser():
     parser.add_argument('-pp', '--positive_proportion', type=float, default=0.25, help='Ratio of positive to negative samples during training')
     parser.add_argument('-pcw', '--pos_class_weight', type=float, default=1.0, help='Weight of positive example relative to negative in loss function')
     parser.add_argument('--basset_pretrained_path', type=str, default=None, required=True, help='Path of pretrained Stage 1 model folder')
+    parser.add_argument('-s1f', '--stage1_file', type=str, default=None, required=True, help='Path of Stage 1 model python file')
     parser.add_argument('-ng', '--num_genes', type=int, default=1630, help='Number of genes in rna-exp vector')
+    parser.add_argument('-wm', '--with_mean', type=int, default=0, help='Use mean accessibility as input feature')
 
     return parser
 

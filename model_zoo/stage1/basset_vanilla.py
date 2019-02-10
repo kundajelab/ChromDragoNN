@@ -60,14 +60,15 @@ class Net(nn.Module):
         s = self.maxpool2(F.relu(self.bn2(self.conv2(s))))           # batch_size x 200 x 83 x 1
         s = self.maxpool3(F.relu(self.bn3(self.conv3(s))))           # batch_size x 200 x 21 x 1
         s = s.view(-1, 4200)
-        
+        conv_out = s
+
         s = F.dropout(F.relu(self.bn4(self.fc1(s))), p=self.dropout, training=self.training)  # batch_size x 1000
         s = F.dropout(F.relu(self.bn5(self.fc2(s))), p=self.dropout, training=self.training)  # batch_size x 1000
-        intermediate_out = s
+        
         
         s = self.fc3(s)
 
-        return s, intermediate_out
+        return s, conv_out
 
 
 def instantiate_model(args, chrms = ALL_CHROMOSOMES):

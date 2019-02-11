@@ -27,11 +27,15 @@ The `model_zoo/stage1` directory contains models for the [Vanilla](./model_zoo/s
 
 To start training any of these models (say, ResNet), from the `model_zoo/stage1` directory:
 
-```python resnet.py -cp /path/to/stage1/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib```
+```bash
+python resnet.py -cp /path/to/stage1/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib
+```
 
 For other inputs, such as hyperparameters, refer
 
-```python resnet.py --help```
+```bash
+python resnet.py --help
+```
 
 ### Stage 2
 
@@ -41,13 +45,17 @@ The `model_zoo/stage2` directory contains models for the stage 2 models, which m
 
 To start training any of these models (say, ResNet, with mean), from the `model_zoo/stage2` directory:
 
-```python simple.py -cp /path/to/stage2/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib --stage1_file ../stage1/resnet.py --stage1_pretrained_model_path /path/to/stage1/checkpoint/dir --with_mean 1```
+```bash
+python simple.py -cp /path/to/stage2/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib --stage1_file ../stage1/resnet.py --stage1_pretrained_model_path /path/to/stage1/checkpoint/dir --with_mean 1
+```
 
-The model loads weights from the best model from the stage 1 checkpoint directory. You may resume training from a previous checkpoint by adding the argument `-rb 1` to the above command. To predict on the test set, add the argument `-ev 1` to the above command. This will generate a report of performance on the test set and also produce precision-recall plots. 
+The model loads weights from the best model from the stage 1 checkpoint directory. You may resume training from a previous checkpoint by adding the argument ```-rb 1``` to the above command. To predict on the test set, add the argument ```-ev 1``` to the above command. This will generate a report of performance on the test set and also produce precision-recall plots. 
 
 For other inputs, such as hyperparameters, refer
 
-```python simple.py --help```
+```bash
+python simple.py --help
+```
 
 ## Citation
 

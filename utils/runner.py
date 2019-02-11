@@ -6,7 +6,7 @@ import torch.nn as nn
 import os
 
 
-def instantiate_model_stage1(args, Stage1Net, pipeline):
+def instantiate_model_stage1(args, Stage2Net, pipeline):
     model = Stage1Net(args)
 
     if args.resume_from_best:
@@ -20,8 +20,8 @@ def instantiate_model_stage1(args, Stage1Net, pipeline):
     return model
 
 
-def instantiate_model_stage2(args, Stage1Net, Stage2Net, pipeline):
-    
+def instantiate_model_stage2(args, Stage2Net, pipeline):
+    Stage1Net = import_net_from_file(args.stage1_file) 
 
     # load basset model
     basset_checkpoint = torch.load(args.stage1_pretrained_model_path + 'model_best.pth.tar')

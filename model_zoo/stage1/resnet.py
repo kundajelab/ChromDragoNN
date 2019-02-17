@@ -16,11 +16,6 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.autograd import Variable
 
-if os.getcwd().startswith('/Users/jacobperricone/'):
-    DATA_DIR = '/Users/jacobperricone/Desktop/STANFORD/w18/Research/Data'
-else:
-    DATA_DIR = '/scratch/users/surag/cs273b/data/'
-
 
 """
 Usage: python basset_resnet_one.py

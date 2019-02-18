@@ -49,7 +49,7 @@ To start training any of these models (say, ResNet, with mean), from the `model_
 python simple.py -cp /path/to/stage2/checkpoint/dir --dnase /path/to/dnase/packbited --rna_quants /path/to/rna_quants_1630tf.joblib --stage1_file ../stage1/resnet.py --stage1_pretrained_model_path /path/to/stage1/checkpoint/dir --with_mean 1
 ```
 
-The model loads weights from the best model from the stage 1 checkpoint directory. You may resume training from a previous checkpoint by adding the argument ```-rb 1``` to the above command. To predict on the test set, add the argument ```-ev 1``` to the above command. This will generate a report of performance on the test set and also produce precision-recall plots. 
+The model loads weights from the best model from the stage 1 checkpoint directory. You may resume training from a previous checkpoint by adding the argument ```-rb 1``` to the above command. To predict on the test set, add the arguments ```-rb 1 -ev 1``` to the above command. This will generate a report of performance on the test set and also produce precision-recall plots. 
 
 For other inputs, such as hyperparameters, refer
 

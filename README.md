@@ -1,4 +1,4 @@
-# seq x gene
+# ChromDragoNN: cis-trans Deep RegulAtory Genomic Neural Network for predicting Chromatin Accessibility
 
 <!--- 
 = TODO 

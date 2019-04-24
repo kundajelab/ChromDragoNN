@@ -6,7 +6,7 @@ import torch.nn as nn
 import os
 
 
-def instantiate_model_stage1(args, Stage2Net, pipeline):
+def instantiate_model_stage1(args, Stage1Net, pipeline):
     model = Stage1Net(args)
 
     if args.resume_from_best:

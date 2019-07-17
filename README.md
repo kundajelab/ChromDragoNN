@@ -59,6 +59,8 @@ python simple.py --help
 
 ## Citation
 
-If you use this code for your research, please cite our paper.
+If you use this code for your research, please cite our paper:
+
+Surag Nair, Daniel S Kim, Jacob Perricone, Anshul Kundaje, Integrating regulatory DNA sequence and gene expression to predict genome-wide chromatin accessibility across cellular contexts, Bioinformatics, Volume 35, Issue 14, July 2019, Pages i108–i116, https://doi.org/10.1093/bioinformatics/btz352
 
 <!--- add citation --->

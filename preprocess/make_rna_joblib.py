@@ -6,9 +6,9 @@ import numpy as np
 
 """
 Input file must be a tab-separated (NOT gzipped) file formatted as below. The gene
-expression values must be appropriately normalised. In our paper, we use 
-asinh(TPM) values. Ensure the number and order of the tasks is the same as in
-the accessibility data.
+expression values must be appropriately normalised. In our paper, we use asinh(TPM) 
+values for 1630 TFs. Ensure the number and order of the tasks is the same as in the 
+accessibility data.
 
 gene    task1   task2  ...  taskM
 MEOX1   3.5189  2.8237      3.7542

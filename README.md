@@ -18,7 +18,7 @@ Untar the `dnase.chr.packbited.tar.gz` file (occupies ~30 Gb).
 
 If you have your own data, you may use scripts in the `preprocess/` directory. 
 
-### Preparing the Accessibility Data
+### Preparing Accessibility Data
 For the accessibility matrix, prepare your data in the following format as a tab-separated gzipped file.
 ```
 chr    start  end    task1  task2  ...  taskM
@@ -34,6 +34,25 @@ python ./preprocess/make_accessibility_joblib.py --input /path/to/accessibility/
 ``` 
 
 If you wish to generate the binary matrix from peaks (e.g. narrowPeak), have a look at the [seqdataloader](https://github.com/kundajelab/seqdataloader) repo. 
+
+### Preparing RNA Data
+For the RNA matrix, prepare your data in the following format as a tab-separated file (NOT gzipped). 
+```
+gene    task1   task2  ...  taskM
+MEOX1   3.5189  2.8237      3.7542
+SOX8    0.0     0.0         1.9623
+...
+ZNF195  0.0     0.1232      0.0023
+```
+The gene expression values must already be appropriately normalised. In our paper, we use the arcsinh(TPM) values for 1630 Transcription Factors. Do ensure the number and order of the tasks is the same as in the accessibility data.
+
+Then use the following command to process the data:
+```bash
+python ./preprocess/make_rna_joblib.py --input /path/to/rna/file.tsv --output_prefix /path/to/rna/prefix
+```
+
+This will output `/path/to/rna/prefix.joblib` RNA quants file.
+
 
 ## Model Training 
 

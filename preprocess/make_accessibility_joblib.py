@@ -54,8 +54,7 @@ def make_joblib(infile, out_dir, genome):
 
     if not all([int(x[2])-int(x[1])==int(d[0][2])-int(d[0][1]) for x in d]):
         print("ERROR: Not all intervals have the same length")
-        exit(0)
-
+        exit(1)
 
     chrms = set([x[0] for x in d])
     dat = {c:{'num_cell_types': len(tasks),

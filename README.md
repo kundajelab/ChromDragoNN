@@ -12,10 +12,28 @@ This repository contains code for our paper "Integrating regulatory DNA sequence
 
 ## Data
 
-All associated data can be downloaded from [here](http://mitra.stanford.edu/kundaje/projects/seqxgene/).
+All associated data from our paper can be downloaded from [here](http://mitra.stanford.edu/kundaje/projects/seqxgene/).
 
 Untar the `dnase.chr.packbited.tar.gz` file (occupies ~30 Gb).
 
+If you have your own data, you may use scripts in the `preprocess/` directory. 
+
+### Preparing the Accessibility Data
+For the accessibility matrix, prepare your data in the following format as a tab-separated gzipped file.
+```
+chr    start  end    task1  task2  ...  taskM
+chr1   50     1050       0      0           0
+chr1   1000   2000       1      0           1
+...
+chr2   100    1100       1      0           1
+```
+
+Then use the following command to process the data (this may take a few hours depending on the size of your dataset):
+```bash
+python ./preprocess/make_accessibility_joblib.py --input /path/to/accessibility/file.tsv.gz --output_dir /path/to/dnase/packbited --genome_fasta /path/to/genome/fasta.fa
+``` 
+
+If you wish to generate the binary matrix from peaks (e.g. narrowPeak), have a look at the [seqdataloader](https://github.com/kundajelab/seqdataloader) repo. 
 
 ## Model Training 
 

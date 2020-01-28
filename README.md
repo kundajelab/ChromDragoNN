@@ -19,7 +19,7 @@ Untar the `dnase.chr.packbited.tar.gz` file (occupies ~30 Gb).
 If you have your own data, you may use scripts in the `preprocess/` directory. 
 
 ### Preparing Accessibility Data
-For the accessibility matrix, prepare your data in the following format as a tab-separated gzipped file.
+For the accessibility matrix, prepare your data in the following format as a tab-separated gzipped file. 
 ```
 chr    start  end    task1  task2  ...  taskM
 chr1   50     1050       0      0           0
@@ -27,6 +27,8 @@ chr1   1000   2000       1      0           1
 ...
 chr2   100    1100       1      0           1
 ```
+
+ChromDragoNN works on binary data and hence do ensure that the labels are all 0 or 1 only.
 
 Then use the following command to process the data (this may take a few hours depending on the size of your dataset):
 ```bash

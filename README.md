@@ -24,6 +24,7 @@ For the accessibility matrix, prepare your data in the following format as a tab
 chr    start  end    task1  task2  ...  taskM
 chr1   50     1050       0      0           0
 chr1   1000   2000       1      0           1
+...
 chr2   100    1100       1      0           1
 ```
 

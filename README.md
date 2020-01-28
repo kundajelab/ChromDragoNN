@@ -12,7 +12,7 @@ This repository contains code for our paper "Integrating regulatory DNA sequence
 
 ## Data
 
-All associated data from our paper can be downloaded from [here](http://mitra.stanford.edu/kundaje/projects/seqxgene/).
+All associated data from our paper can be downloaded from [here](http://mitra.stanford.edu/kundaje/projects/seqxgene/) or [here](https://zenodo.org/record/2635744#.XjCuIC_MxTY).
 
 Untar the `dnase.chr.packbited.tar.gz` file (occupies ~30 Gb).
 

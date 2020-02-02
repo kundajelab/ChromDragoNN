@@ -34,6 +34,7 @@ Then use the following command to process the data (this may take a few hours de
 ```bash
 python ./preprocess/make_accessibility_joblib.py --input /path/to/accessibility/file.tsv.gz --output_dir /path/to/dnase/packbited --genome_fasta /path/to/genome/fasta.fa
 ``` 
+Make sure the output directory exists!
 
 If you wish to generate the binary matrix from peaks (e.g. narrowPeak), have a look at the [seqdataloader](https://github.com/kundajelab/seqdataloader) repo. 
 

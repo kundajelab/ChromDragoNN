@@ -46,12 +46,12 @@ class Net(nn.Module):
     def forward(self, s, g, m=None):
         if self.args.freeze_pretrained_model: self.basset_model.eval()
         
-        _, conv_out = self.basset_model(s)                                                    # batch_size x 1000
+        _, conv_out = self.basset_model(s)                                                    # batch_size x 4200
         
         if self.args.with_mean:
-            g = torch.cat((conv_out,g,m.view(-1,1)), 1)                                       # batch_size x (1000 + num_genes + 1)
+            g = torch.cat((conv_out,g,m.view(-1,1)), 1)                                       # batch_size x (4200 + num_genes + 1)
         else:
-            g = torch.cat([conv_out, g], dim = -1)                                            # batch_size x (1000 + num_genes)
+            g = torch.cat([conv_out, g], dim = -1)                                            # batch_size x (4200 + num_genes)
 
         g = F.dropout(F.relu(self.bn1(self.fc1(g))), p=self.args.dropout, training=self.training)  # batch_size x 1000
         g = F.dropout(F.relu(self.bn2(self.fc2(g))), p=self.args.dropout, training=self.training)  # batch_size x 1000
